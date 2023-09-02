@@ -10,12 +10,19 @@ RUN mkdir /home/node/code
 WORKDIR /home/node/code
 # Copy server file local to the container
 # Source . destination .
-COPY --chown=node:node . .
+
+# COPY layer is created when the Dockerfile is built and it contains all the files in the context that are needed for the build.
+# this layer is cached and will not be rebuilt unless the context changes.
+COPY --chown=node:node package.json package-lock.json ./
+# RUN npm install
+#for example. It's faster and more secure than npm install. 
 # npm ci it's very similar to npm install,
 # but it's meant for automated builds,
 # like in a CI/CD pipeline 
-#for example. It's faster and more secure than npm install. 
 RUN npm ci
+# Copy all the files from the current directory to the container
+COPY --chown=node:node . .
+
 # Expose port 3000
 EXPOSE 3000
 # RUN the command to start the app
