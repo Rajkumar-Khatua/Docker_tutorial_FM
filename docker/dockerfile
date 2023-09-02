@@ -1,0 +1,3 @@
+FROM node:latest
+
+CMD ["node", "-e","console.log(\"hello docker, this is second version 2.1.0 \")"]

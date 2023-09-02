@@ -1,0 +1,22 @@
+# Follow this link: https://btholt.github.io/complete-intro-to-containers/more-complicated-nodejs-app
+
+# Base image: node:latest
+FROM node:latest
+# Create a user called node
+USER node
+# Create app directory
+RUN mkdir /home/node/code
+# Set the working directory to /home/node/code
+WORKDIR /home/node/code
+# Copy server file local to the container
+# Source . destination .
+COPY --chown=node:node . .
+# npm ci it's very similar to npm install,
+# but it's meant for automated builds,
+# like in a CI/CD pipeline 
+#for example. It's faster and more secure than npm install. 
+RUN npm ci
+# Expose port 3000
+EXPOSE 3000
+# RUN the command to start the app
+CMD ["node", "index.js"]
